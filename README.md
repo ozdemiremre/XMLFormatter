@@ -1,7 +1,7 @@
 # XMLFormatter
 ### An XML formatter for a specific need.
 
-![Demo](https://i.imgur.com/tsLIaAq.gifv)
+![Demo](https://i.imgur.com/tsLIaAq.gif)
 
 This visual studio extension will format currently open xml file by sorting your attributes in the specific order that you choose.
 
