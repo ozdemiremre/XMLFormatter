@@ -48,8 +48,13 @@ namespace XMLFormatter
             //Read settings
             SettingsManager settingsManager = new ShellSettingsManager(this as System.IServiceProvider);
             userSettingsStore = settingsManager.GetWritableSettingsStore(SettingsScope.UserSettings);
+
+            //Load settings on init
             LoadSettings();
+
+            //Save settings on close
             ((OptionPageGrid)GetDialogPage(typeof(OptionPageGrid))).onClose = SaveSettings;
+            //Load settings on open
             ((OptionPageGrid)GetDialogPage(typeof(OptionPageGrid))).onOpen = LoadSettings;
         }
 

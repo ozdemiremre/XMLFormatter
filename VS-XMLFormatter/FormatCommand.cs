@@ -12,6 +12,7 @@ using System.Xml;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.Settings;
 using Microsoft.VisualStudio.Shell.Settings;
+using System.Windows.Forms;
 
 namespace XMLFormatter
 {
@@ -160,7 +161,7 @@ namespace XMLFormatter
 
             knownAttributesList = knownAttributesList.OrderBy(a => attributesList.IndexOf(a.Name)).ToList();
             //Unknown attributes are sorted alphabetically
-            unknownAttributesList.Sort((x, y) => string.Compare(x.Name, y.Name)); 
+            unknownAttributesList.Sort((x, y) => string.Compare(x.Name, y.Name));
 
             for (int i = 0; i < knownAttributesList.Count; i++)
             {
@@ -183,6 +184,13 @@ namespace XMLFormatter
 
             DTE dte = Package.GetGlobalService(typeof(DTE)) as DTE;
             Document doc = dte.ActiveDocument;
+
+            if (doc == null)
+            {
+                MessageBox.Show("No active document", "XMLFormatter", MessageBoxButtons.OK);
+                return null;
+            }
+
             if (doc.Language == "XML")
             {
                 XmlDocument xml = new XmlDocument();
@@ -190,8 +198,12 @@ namespace XMLFormatter
                 xml.Load(pathOfCurrentFile);
                 return xml;
             }
+            else
+            {
+                MessageBox.Show("Current document is not an XML type", "XMLFormatter", MessageBoxButtons.OK);
+                return null;
+            }
 
-            return null;
         }
 
     }
