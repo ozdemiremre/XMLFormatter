@@ -101,7 +101,9 @@ namespace XMLFormatter
         private void Execute(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            XmlDocument xmlDoc = GetCurrentDocumentAsXML();
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.PreserveWhitespace = true;
+            xmlDoc = GetCurrentDocumentAsXML();
 
             if (xmlDoc == null)
             {
@@ -110,13 +112,13 @@ namespace XMLFormatter
 
             XmlNode currentNode = xmlDoc.FirstChild;
             IterateChildrenNodesRecur(xmlDoc.FirstChild);
-
+            
             xmlDoc.Save(pathOfCurrentFile);
         }
 
         private void IterateChildrenNodesRecur(XmlNode currentNode)
         {
-            if (currentNode.NodeType == XmlNodeType.Comment || currentNode.Attributes.Count == 0)
+            if (currentNode.NodeType == XmlNodeType.Comment || currentNode.NodeType == XmlNodeType.Whitespace || currentNode.Attributes.Count == 0)
             {
                 //Pass children nodes
                 for (int i = 0; i < currentNode.ChildNodes.Count; i++)
@@ -194,6 +196,7 @@ namespace XMLFormatter
             if (doc.Language == "XML")
             {
                 XmlDocument xml = new XmlDocument();
+                xml.PreserveWhitespace = true;
                 pathOfCurrentFile = doc.FullName;
                 xml.Load(pathOfCurrentFile);
                 return xml;
